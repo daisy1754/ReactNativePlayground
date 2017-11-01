@@ -1,13 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import ReactNative, { StyleSheet, Text, TouchableNativeFeedback, TouchableHighlight, View, UIManager} from 'react-native';
 
 export default class App extends React.Component {
+
+  onOpenMenu = () => {
+    UIManager.showPopupMenu(
+      ReactNative.findNodeHandle(this._button),
+      ['Option 1', 'Option 2'],
+      () => console.log('something went wrong with the popup menu'),
+      (e, i) => console.log(`${e} : ${i}`)
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <TouchableNativeFeedback
+          ref={e => {this._button = e;}}
+          onPress={this.onOpenMenu}
+          background={TouchableNativeFeedback.Ripple('#d0d0d0')}>
+          <Text>Click me!</Text>
+        </TouchableNativeFeedback>
       </View>
     );
   }
